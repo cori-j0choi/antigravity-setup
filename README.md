@@ -117,5 +117,21 @@ Antigravity includes automated hooks configured in `hooks/hooks.json` to assist 
     - Prevents creation of unorganized markdown files.
 - **Quality Checks**: Detects `console.log` leftovers after file edits.
 
-## 6. Contributing
+## 6. Parallel Swarm & Orchestration
+Antigravity supports parallel agent execution for complex tasks.
+
+### 6.1 Parallel Execution (Swarm)
+Run the Swarm Orchestrator to execute agents defined in `agents/roles.yaml` in parallel/serial phases.
+```bash
+python scripts/swarm/orchestrator.py
+```
+This will:
+1.  Read `agents/roles.yaml`.
+2.  Inject shared context (`task_plan.md`, etc.).
+3.  Run agents concurrently based on their `mode` (parallel/serial).
+
+### 6.2 Jules Integration (MCP)
+The `antigravity-jules-orchestration3` MCP server is configured in `mcp/mcp_config.json`. This enables advanced orchestration capabilities directly through the tool interface.
+
+## 7. Contributing
 To add a new skill or change a rule, modify the file in the appropriate directory and reflect it in `agents/workflow.md`.
