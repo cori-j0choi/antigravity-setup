@@ -141,10 +141,25 @@ Antigravity includes automated hooks configured in `hooks/hooks.json` to assist 
     - Prevents creation of unorganized markdown files.
 - **Quality Checks**: Detects `console.log` leftovers after file edits.
 
-## 6. Parallel Swarm & Orchestration
-Antigravity supports parallel agent execution for complex tasks.
+## 6. Execution Modes (How to Run)
+Antigravity can be run in two modes depending on task complexity.
 
-### 6.1 Parallel Execution (Swarm)
+### 6.1 Interactive Mode (Chat-based)
+**Best for**: Daily development, TDD, specific features.
+- **How**: You chat with the LLM in your IDE (Cursor, Windsurf).
+- **Trigger**: Type commands like `/plan`, `/tdd`.
+- **Mechanism**: The LLM uses `AGENTS.md` context to simulate the agents (Planner, Developer) and executes tools directly.
+
+### 6.2 Autonomous Mode (Swarm)
+**Best for**: Complex migrations, large refactors, multi-file features.
+- **How**: Run the Python orchestrator script.
+- **Trigger**: `python scripts/swarm/orchestrator.py`
+- **Mechanism**: Multiple agent instances run in parallel, communicating via `checklist` and `shared_memory`.
+
+## 7. Parallel Swarm & Orchestration
+(Advanced details on Swarm configuration...)
+
+### 7.1 Parallel Execution (Swarm)
 Run the Swarm Orchestrator to execute agents defined in `agents/roles.yaml` in parallel/serial phases.
 ```bash
 python scripts/swarm/orchestrator.py

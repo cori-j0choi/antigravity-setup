@@ -124,9 +124,24 @@ antigravity-setup/
     - 규칙에 어긋나는 무분별한 마크다운 파일 생성을 방지합니다.
 - **Quality Checks**: 파일 수정 후 남아있는 `console.log`를 감지하여 경고합니다.
 
-## 6. 고급 기능 (Advanced Features)
+## 6. 실행 모드 (Execution Modes)
+Antigravity는 작업 복잡도에 따라 두 가지 모드로 실행할 수 있습니다.
 
-### 6.1 Parallel Swarm (병렬 실행)
+### 6.1 대화형 모드 (Interactive Mode)
+**추천**: 일상적인 개발, TDD, 단일 기능 구현.
+- **방법**: IDE(Cursor, Windsurf) 채팅창에서 LLM과 대화합니다.
+- **실행**: `/plan`, `/tdd` 등의 명령어를 입력합니다.
+- **원리**: LLM이 `AGENTS.md` 컨텍스트를 기반으로 에이전트(Planner, Developer) 역할을 수행하며 도구를 실행합니다.
+
+### 6.2 자율 모드 (Autonomous Swarm)
+**추천**: 복잡한 마이그레이션, 대규모 리팩토링, 다중 파일 작업.
+- **방법**: Python 오케스트레이터 스크립트를 실행합니다.
+- **실행**: `python scripts/swarm/orchestrator.py`
+- **원리**: 여러 에이전트 인스턴스가 병렬로 실행되며 체크리스트를 기반으로 협업합니다.
+
+## 7. 고급 기능 (Advanced Features)
+
+### 7.1 Parallel Swarm (병렬 실행)
 복잡한 작업을 병렬로 처리합니다.
 ```bash
 python scripts/swarm/orchestrator.py
