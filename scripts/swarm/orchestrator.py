@@ -118,11 +118,18 @@ def main():
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8')
 
-    if not os.path.exists(CONFIG_FILE):
-        print(f"Error: {CONFIG_FILE} not found.")
+    if "--config" in sys.argv:
+        idx = sys.argv.index("--config")
+        if idx + 1 < len(sys.argv):
+            config_file = sys.argv[idx + 1]
+    else:
+        config_file = CONFIG_FILE
+
+    if not os.path.exists(config_file):
+        print(f"Error: {config_file} not found.")
         return
 
-    with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+    with open(config_file, 'r', encoding='utf-8') as f:
         config = yaml.safe_load(f)
 
     # Shared Context Injection from memory/task files

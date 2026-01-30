@@ -145,5 +145,11 @@ This will:
 ### 6.2 Jules Integration (MCP)
 The `antigravity-jules-orchestration3` MCP server is configured in `mcp/mcp_config.json`. This enables advanced orchestration capabilities directly through the tool interface.
 
+### 6.3 Auto-Swarm Skill
+You can configure your agent to automatically trigger the swarm for complex tasks.
+- **Location**: `skills/common/antigravity-swarm/SKILL.md`
+- **Trigger**: Tasks involving >3 files or distinct roles.
+- **Action**: Automates `planner.py` -> `orchestrator.py` flow.
+
 ## 7. Contributing
 To add a new skill or change a rule, modify the file in the appropriate directory and reflect it in `agents/workflow.md`.
