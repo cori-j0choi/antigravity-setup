@@ -11,7 +11,7 @@ const SETUP_DIR = path.resolve(__dirname, '..');
 // So ProjectRoot is ../../ form SETUP_DIR
 const PROJECT_ROOT = path.resolve(SETUP_DIR, '../../');
 
-const CURSOR_RULES_FILE = path.join(PROJECT_ROOT, '.cursorrules');
+const CURSOR_RULES_FILE = path.join(PROJECT_ROOT, 'AGENTS.md');
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -55,28 +55,28 @@ You MUST load and adhere to the following configurations:
 }
 
 async function main() {
-    console.log(`\n⚙️  Configuring IDE Context...`);
+    console.log(`\n⚙️  Configuring Antigravity Context...`);
     console.log(`   Project Root detected at: ${PROJECT_ROOT}`);
     console.log(`   Antigravity installed at: ${SETUP_DIR}`);
 
     const rulesContent = generateCursorRules();
 
     if (fs.existsSync(CURSOR_RULES_FILE)) {
-        console.log(`\n⚠️  .cursorrules already exists at ${CURSOR_RULES_FILE}`);
+        console.log(`\n⚠️  AGENTS.md already exists at ${CURSOR_RULES_FILE}`);
         rl.question('   Overwrite it? (y/N): ', (answer) => {
             if (answer.toLowerCase() === 'y') {
                 fs.writeFileSync(CURSOR_RULES_FILE, rulesContent);
-                console.log('✅ .cursorrules updated.');
+                console.log('✅ AGENTS.md updated.');
             } else {
-                console.log('   Skipping configuration. You can manually copy the rules from README.');
+                console.log('   Skipping configuration.');
             }
             rl.close();
         });
     } else {
-        rl.question(`\n📝 Create .cursorrules in project root? (Y/n): `, (answer) => {
+        rl.question(`\n📝 Create AGENTS.md in project root? (Y/n): `, (answer) => {
             if (answer.toLowerCase() !== 'n') {
                 fs.writeFileSync(CURSOR_RULES_FILE, rulesContent);
-                console.log('✅ .cursorrules created. Your Agent is now Antigravity-aware!');
+                console.log('✅ AGENTS.md created. Point your LLM to this file context!');
             } else {
                 console.log('   Skipped.');
             }

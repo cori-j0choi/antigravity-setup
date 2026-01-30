@@ -58,11 +58,11 @@ During installation (`npx` or manual), the setup script will prompt you to analy
 - **Output**: Generates `rules/tech_stack.md`.
 - **Effect**: All agents will automatically adapt their code generation to follow the detected tech stack.
 
-### 2.6 Auto-Configuration (IDE Integration)
-Finally, the setup runs `bin/configure.js` to generate a `.cursorrules` file in your project root.
-- **Purpose**: Automatically binds your LLM (e.g., Cursor, Windsurf) to the Antigravity context.
+### 2.6 Auto-Configuration (Context File)
+Finally, the setup runs `bin/configure.js` to generate an `AGENTS.md` file in your project root.
+- **Purpose**: Provides a single context file for your LLM / Agent.
 - **Content**: References `roles.yaml`, `workflow.md`, and the generated `tech_stack.md`.
-- **Result**: You can start using `/plan`, `/tdd` immediately without manual context loading.
+- **Action**: Just open this file in your IDE or pass it to your Agent as context.
 
 ## 3. Usage Guide
 
