@@ -64,18 +64,25 @@ Finally, the setup runs `bin/configure.js` to generate an `AGENTS.md` file in yo
 - **Content**: References `roles.yaml`, `workflow.md`, and the generated `tech_stack.md`.
 - **Action**: Just open this file in your IDE or pass it to your Agent as context.
 
+> [!NOTE]
+> **Git-Aware Awareness**: The setup automatically checks for `.git`.
+> - If found: Enables `github` MCP (Issues, PRs).
+> - If missing: Disables `github` MCP to prevent errors.
+
 ## 3. Usage Guide
 
 ### 3.1 Start a Project (`/plan`)
-Call the Planner when developing a new feature or starting a project.
-
-```
-/plan [Project Name] [Requirements Description]
-```
-
-- Planner reviews `memory/lessons/` and creates a `task_plan.md` reflecting past lessons.
-- **[NEW]** You can also write a detailed specification via the `/spec` command.
-- Proceed to the next step only after user **Confirmation**.
+1.  Open your IDE (Cursor/Windsurf) with the project.
+2.  Open `AGENTS.md` (or copy its content to the chat).
+3.  **Prompt**: "Let's start. `/plan` Create a login feature."
+4.  **Planner Agent** will:
+    -   Analyze requirements.
+    -   Check `tech_stack.md` and VCS status.
+    -   Create `task_plan.md`.
+    -   **Ask**: "Do you want to execute this via Swarm?"
+5.  **Execution**:
+    -   **Interactive**: You continue chatting (`/tdd`).
+    -   **Autonomous**: You say "Yes", and the Agent runs `python scripts/swarm/orchestrator.py`.
 
 ### 3.2 Implementation & Test (`/tdd`)
 Once the design is complete, the Developer and Tester start implementation.
@@ -152,9 +159,16 @@ Antigravity can be run in two modes depending on task complexity.
 
 ### 6.2 Autonomous Mode (Swarm)
 **Best for**: Complex migrations, large refactors, multi-file features.
-- **How**: Run the Python orchestrator script.
-- **Trigger**: `python scripts/swarm/orchestrator.py`
+- **Trigger**: 
+  - **Manual**: `python scripts/swarm/orchestrator.py`
+  - **Seamless**: The Planner agent triggers this script automatically after `task_plan.md` approval.
 - **Mechanism**: Multiple agent instances run in parallel, communicating via `checklist` and `shared_memory`.
+
+### 6.3 Jules Orchestrator (Experimental)
+**Best for**: Logic-based orchestration without Python scripts.
+- **Tool**: `antigravity-jules-orchestration3` (MCP)
+- **Concept**: An MCP-based agent that allows the LLM to spawn and manage sub-agents purely through tool calls.
+- **Note**: Requires a GitHub repository for state management. Recommended for advanced users.
 
 ## 7. Parallel Swarm & Orchestration
 (Advanced details on Swarm configuration...)

@@ -54,18 +54,23 @@ npx antigravity-setup
 - **내용**: `roles.yaml`, `workflow.md`, 그리고 생성된 `tech_stack.md`를 참조합니다.
 - **사용법**: 이 파일을 IDE에 열어두거나 에이전트의 Context로 전달하기만 하면 됩니다.
 
+> [!NOTE]
+> **Git 인식 (Git-Aware)**: 설정 과정에서 `.git` 폴더를 자동으로 감지합니다.
+> - 발견 시: `github` MCP (Issue/PR)를 활성화합니다.
+> - 미발견 시: 에러 방지를 위해 `github` 기능을 비활성화합니다.
+
 ## 3. 사용 가이드 (Usage Guide)
 
 ### 3.1 프로젝트 시작 (`/plan`)
-새로운 기능을 개발하거나 프로젝트를 시작할 때 Planner를 호출합니다.
-
-```
-/plan [프로젝트명] [요구사항 설명]
-```
-
-- Planner는 `memory/lessons/`를 검토하여 과거의 교훈을 반영한 `task_plan.md`를 작성합니다.
-- **[NEW]** `/spec` 명령어를 통해 상세 명세서를 작성할 수도 있습니다.
-- 사용자의 **승인(Confirmation)**이 있어야만 다음 단계로 넘어갑니다.
+1.  IDE(Cursor/Windsurf)를 열고 `AGENTS.md`를 활성화합니다.
+2.  **명령**: "시작하자. `/plan` 로그인 기능을 만들어줘."
+3.  **Planner 에이전트**:
+    -   요구사항을 분석하고 `tech_stack.md`와 Git 상태를 확인합니다.
+    -   `task_plan.md`를 작성하고 승인을 요청합니다.
+    -   **질문**: "이 계획을 Swarm으로 실행하시겠습니까?"
+4.  **실행 (Execution)**:
+    -   **Interactive**: 대화를 계속하며 직접 `/tdd` 진행.
+    -   **Autonomous**: "응"이라고 답하면 `scripts/swarm/orchestrator.py`를 실행하여 자동 구현 시작.
 
 ### 3.2 구현 및 테스트 (`/tdd`)
 설계가 완료되면 Developer와 Tester가 구현을 시작합니다.
@@ -135,9 +140,16 @@ Antigravity는 작업 복잡도에 따라 두 가지 모드로 실행할 수 있
 
 ### 6.2 자율 모드 (Autonomous Swarm)
 **추천**: 복잡한 마이그레이션, 대규모 리팩토링, 다중 파일 작업.
-- **방법**: Python 오케스트레이터 스크립트를 실행합니다.
-- **실행**: `python scripts/swarm/orchestrator.py`
+- **실행**:
+  - **수동**: `python scripts/swarm/orchestrator.py`
+  - **자동 (Seamless)**: Planner 에이전트가 계획 수립 후 실행 여부를 묻고 자동 트리거함.
 - **원리**: 여러 에이전트 인스턴스가 병렬로 실행되며 체크리스트를 기반으로 협업합니다.
+
+### 6.3 Jules Orchestrator (실험적 기능)
+**추천**: Python 스크립트 없이 로직 기반 오케스트레이션이 필요할 때.
+- **도구**: `antigravity-jules-orchestration3` (MCP)
+- **개념**: MCP 도구를 통해 LLM이 메모리 상에서 하위 에이전트를 생성/위임하는 방식.
+- **참고**: 상태 관리를 위해 GitHub 저장소 연결이 권장됩니다.
 
 ## 7. 고급 기능 (Advanced Features)
 
