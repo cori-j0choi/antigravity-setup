@@ -15,6 +15,7 @@ Antigravity 에이전트는 다음 프로토콜에 따라 협업합니다.
   2.  `memory/lessons/` 참조하여 과거 실패 패턴 확인.
   3.  `task_plan.md` 작성 및 사용자 승인 요청.
   4.  **[/spec]** 상세 명세서 작성 (`reports/specs/`).
+  5.  **[/trend]** 트렌드 레이더 수행 (`reports/recommendations/`).
 - **종료 조건**: 사용자의 명시적 승인 (Confirmation).
 
 ### Phase 2: Design
@@ -41,6 +42,20 @@ Antigravity 에이전트는 다음 프로토콜에 따라 협업합니다.
   2.  **Report**: `reports/verification/`에 검증 리포트 생성.
 - **종료 조건**: 모든 항목 PASS 및 리포트 생성 완료.
 
+### Phase 4.1: Evaluation (`/eval`)
+- **주체**: Tester, Reviewer
+- **활동**:
+  1.  회귀 벤치마크 및 LLM Judge 평가 수행.
+  2.  품질 지표 비교 및 하락 감지.
+- **종료 조건**: 평가 리포트 생성 및 품질 게이트 통과.
+
+### Phase 4.2: Red Team (`/redteam`)
+- **주체**: Reviewer, Security
+- **활동**:
+  1.  프롬프트 인젝션 및 툴 오남용 테스트.
+  2.  취약점 리포트 및 완화 방안 도출.
+- **종료 조건**: 치명적 취약점 없음 또는 수정 완료.
+
 ### Phase 5: Code Review (`/review`)
 - **주체**: Reviewer
 - **활동**:
@@ -54,3 +69,4 @@ Antigravity 에이전트는 다음 프로토콜에 따라 협업합니다.
 - **활동**:
   1.  프로젝트 종료 후 회고.
   2.  `memory/failures/` 분석 -> `memory/lessons/`로 지식화.
+  3.  관측성 지표(비용, 지연시간, 품질) 기반 개선안 도출.

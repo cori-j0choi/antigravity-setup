@@ -11,6 +11,7 @@
 - **Manus Protocol Implementation**: 체계적인 협업 프로토콜 (`agents/workflow.md`).
 - **Korean First**: 모든 문서화 및 소통의 한글화 (`rules/00_language.rules.md`).
 - **Meta-Learning**: 실패로부터 배우고 진화하는 파이프라인 (`memory/failures/`, `skills/continuous-learning`).
+- **Trend Alignment**: 최신 트렌드 기반 스킬/에이전트 확장 (`reports/recommendations/`).
 
 ## 2. 설치 및 설정 (Installation & Setup)
 
@@ -82,6 +83,12 @@ npm install -g @modelcontextprotocol/server-sequential-thinking
 ```
 
 - 실패 로그를 분석하여 `memory/lessons/`에 영구적인 지식(Instinct)으로 저장합니다.
+- **[NEW]** `/eval`, `/redteam`, `/observe` 단계를 통해 품질/보안/관측성을 보강합니다.
+
+## 3.5 트렌드 검토 (`/trend`)
+메타 파이프라인 품질을 높이기 위해 최신 도구/에이전트/스킬을 점검합니다.
+
+- 결과는 `reports/recommendations/`에 저장합니다.
 
 ## 4. 디렉토리 구조 (Directory Structure)
 
@@ -89,13 +96,16 @@ npm install -g @modelcontextprotocol/server-sequential-thinking
 antigravity-setup/
 ├── agents/                  # 에이전트 역할(roles.yaml) 및 워크플로우(workflow.md)
 ├── skills/                  # 단계별 전문 스킬 (기획, 설계, 구현, 테스트, 학습)
-│   ├── specification-writer # [NEW] 명세서 작성 스킬
-│   └── verification-reporter # [NEW] 검증 리포트 스킬
+│   ├── 01_planning/          # 트렌드 레이더 등 기획 스킬
+│   ├── 03_implementation/    # Tool Reliability 등 구현 스킬
+│   ├── 04_testing/           # Evals, Red-Teaming 스킬
+│   └── 05_learning/          # Observability 기반 회고 스킬
 ├── rules/                   # [제1원칙] 한글 사용 및 코딩 표준
 ├── mcp/                     # MCP 도구 설정 (mcp_config.json)
 ├── tools/                   # 슬래시 커맨드 정의 (commands.md)
 ├── memory/                  # 메타 러닝 저장소 (failures/, lessons/)
 └── reports/                 # [NEW] 산출물 저장소 (specs/, verification/)
+    └── recommendations/     # [NEW] 트렌드 제안서
 ```
 
 ## 5. 기여 (Contributing)

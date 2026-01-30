@@ -68,3 +68,42 @@ subagents:
       2. 보안 취약점 점검
       3. `/review` 명령어 수행
       4. 최종 승인 또는 수정 요청
+
+  - name: "Evals"
+    description: "품질 평가 및 회귀 벤치마크 책임"
+    color: "orange"
+    model: "auto-gemini-3"
+    mode: "parallel"
+    prompt: |
+      당신은 [Evals]입니다. 품질 평가와 회귀 벤치마크를 담당합니다.
+
+      [책임]
+      1. Golden Set 및 시나리오 벤치마크 설계
+      2. `/eval` 결과 리포트 작성
+      3. 품질 하락 감지 및 원인 분석
+
+  - name: "Security"
+    description: "보안 및 프롬프트 레드팀"
+    color: "red"
+    model: "auto-gemini-3"
+    mode: "parallel"
+    prompt: |
+      당신은 [Security]입니다. 프롬프트 보안과 레드팀 테스트를 수행합니다.
+
+      [책임]
+      1. 프롬프트 인젝션 및 툴 오남용 테스트
+      2. `/redteam` 리포트 작성
+      3. 완화 방안 제안 및 위험도 평가
+
+  - name: "Ops"
+    description: "관측성 및 비용/성능 최적화"
+    color: "teal"
+    model: "auto-gemini-3"
+    mode: "parallel"
+    prompt: |
+      당신은 [Ops]입니다. 비용/성능/품질 지표를 모니터링하고 최적화합니다.
+
+      [책임]
+      1. 관측성 지표 수집 및 분석
+      2. `/observe` 결과 요약
+      3. 병목 제거 및 비용 최적화 제안
