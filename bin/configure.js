@@ -11,14 +11,14 @@ const SETUP_DIR = path.resolve(__dirname, '..');
 // So ProjectRoot is ../../ form SETUP_DIR
 const PROJECT_ROOT = path.resolve(SETUP_DIR, '../../');
 
-const CURSOR_RULES_FILE = path.join(PROJECT_ROOT, 'AGENTS.md');
+const CONTEXT_FILE = path.join(PROJECT_ROOT, 'AGENTS.md');
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-function generateCursorRules() {
+function generateContext() {
     // Relative path from ProjectRoot to SetupDir
     const relativeSetupPath = path.relative(PROJECT_ROOT, SETUP_DIR).replace(/\\/g, '/');
 
@@ -59,13 +59,13 @@ async function main() {
     console.log(`   Project Root detected at: ${PROJECT_ROOT}`);
     console.log(`   Antigravity installed at: ${SETUP_DIR}`);
 
-    const rulesContent = generateCursorRules();
+    const contextContent = generateContext();
 
-    if (fs.existsSync(CURSOR_RULES_FILE)) {
-        console.log(`\n⚠️  AGENTS.md already exists at ${CURSOR_RULES_FILE}`);
+    if (fs.existsSync(CONTEXT_FILE)) {
+        console.log(`\n⚠️  AGENTS.md already exists at ${CONTEXT_FILE}`);
         rl.question('   Overwrite it? (y/N): ', (answer) => {
             if (answer.toLowerCase() === 'y') {
-                fs.writeFileSync(CURSOR_RULES_FILE, rulesContent);
+                fs.writeFileSync(CONTEXT_FILE, contextContent);
                 console.log('✅ AGENTS.md updated.');
             } else {
                 console.log('   Skipping configuration.');
@@ -75,7 +75,7 @@ async function main() {
     } else {
         rl.question(`\n📝 Create AGENTS.md in project root? (Y/n): `, (answer) => {
             if (answer.toLowerCase() !== 'n') {
-                fs.writeFileSync(CURSOR_RULES_FILE, rulesContent);
+                fs.writeFileSync(CONTEXT_FILE, contextContent);
                 console.log('✅ AGENTS.md created. Point your LLM to this file context!');
             } else {
                 console.log('   Skipped.');
