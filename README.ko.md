@@ -42,6 +42,12 @@ npx antigravity-setup
 
 - **Context Path**: `d:\2026\08_antigravity_everything_code\antigravity-setup`
 
+### 2.5 컨텍스트 인식 설정 (Context-Aware Setup)
+설치 과정(`npx` 또는 수동)에서 타겟 프로젝트를 분석할지 묻습니다.
+- **동작**: 프로젝트 언어(Python, Java 등)와 프레임워크를 자동 탐지합니다.
+- **결과**: `rules/tech_stack.md` 파일을 생성합니다.
+- **효과**: 모든 에이전트가 별도의 설정 없이도 감지된 기술 스택에 맞춰 코드를 작성합니다.
+
 ## 3. 사용 가이드 (Usage Guide)
 
 ### 3.1 프로젝트 시작 (`/plan`)

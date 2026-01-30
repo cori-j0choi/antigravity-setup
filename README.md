@@ -52,6 +52,12 @@ You must provide this directory as **Context** or specify it as **Config Path** 
 
 - **Context Path**: `d:\2026\08_antigravity_everything_code\antigravity-setup`
 
+### 2.5 Context-Aware Setup (Project Analysis)
+During installation (`npx` or manual), the setup script will prompt you to analyze the target project.
+- **Action**: Detects languages (Python, Java, Node.js, etc.) and frameworks.
+- **Output**: Generates `rules/tech_stack.md`.
+- **Effect**: All agents will automatically adapt their code generation to follow the detected tech stack.
+
 ## 3. Usage Guide
 
 ### 3.1 Start a Project (`/plan`)
