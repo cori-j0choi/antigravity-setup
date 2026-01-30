@@ -27,6 +27,9 @@
 ```bash
 # 의존성 패키지(MCP 서버) 일괄 설치
 npm install
+
+# 또는 NPX로 설치 (권장)
+npx antigravity-setup
 ```
 
 ### 2.3 환경 변수 설정
@@ -95,7 +98,9 @@ antigravity-setup/
 ├── tools/                   # 슬래시 커맨드 정의 (commands.md)
 ├── memory/                  # 메타 러닝 저장소 (failures/, lessons/)
 ├── reports/                 # [NEW] 산출물 저장소 (specs/, verification/)
-└── hooks/                   # [NEW] 자동화 훅 설정 (hooks.json)
+├── hooks/                   # [NEW] 자동화 훅 설정 (hooks.json)
+└── scripts/
+    └── swarm/               # [NEW] 병렬 에이전트 오케스트레이션 (orchestrator.py)
 ```
 
 ## 5. Hooks System (자동화 훅)
@@ -107,5 +112,28 @@ antigravity-setup/
     - 규칙에 어긋나는 무분별한 마크다운 파일 생성을 방지합니다.
 - **Quality Checks**: 파일 수정 후 남아있는 `console.log`를 감지하여 경고합니다.
 
-## 6. 기여 (Contributing)
+## 6. 고급 기능 (Advanced Features)
+
+### 6.1 Parallel Swarm (병렬 실행)
+복잡한 작업을 병렬로 처리합니다.
+```bash
+python scripts/swarm/orchestrator.py
+```
+
+### 6.2 Auto-Swarm Skill
+작업이 복잡하면(파일 3개 이상) 에이전트가 자동으로 팀을 구성합니다.
+- **Trigger**: `skills/common/antigravity-swarm/SKILL.md`
+
+### 6.3 Vibe Coding (바이브 코딩)
+"Think-Run-Feedback" 루프를 강제하여 빠른 개발 속도를 유지합니다.
+- **Skill**: `skills/common/vibe-coding/SKILL.md`
+- **Agent**: `Vibe_Coding_Coach`
+- **Support**: `Synthetic Data` 스킬로 테스트 데이터 자동 생성.
+
+### 6.4 MSA Architecture
+에이전트와 도구를 마이크로 서비스처럼 분리하여 관리합니다.
+- **Rule**: `rules/msa_architecture.rules.md`
+- **Agent**: `MCP_Steward`
+
+## 7. 기여 (Contributing)
 새로운 스킬을 추가하거나 규칙을 변경하려면 해당 디렉토리의 파일을 수정하고, `agents/workflow.md`에 반영해 주세요.

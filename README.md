@@ -150,6 +150,17 @@ You can configure your agent to automatically trigger the swarm for complex task
 - **Location**: `skills/common/antigravity-swarm/SKILL.md`
 - **Trigger**: Tasks involving >3 files or distinct roles.
 - **Action**: Automates `planner.py` -> `orchestrator.py` flow.
+### 6.4 Vibe Coding Workflow
+Strictly follow the "Think-Run-Feedback" loop for rapid iteration.
+- **Location**: `skills/common/vibe-coding/SKILL.md`
+- **Agents**: `Vibe_Coding_Coach` enforces short loops.
+- **Synthetic Data**: Use `skills/common/vibe-coding/synthetic_data.md` to generate test data on the fly.
 
-## 7. Contributing
+## 7. MSA Architecture
+Antigravity follows the Modular Agent Architecture (MSA).
+- **Rule**: `rules/msa_architecture.rules.md`
+- **Principle**: Agents as Services, MCP as Infrastructure.
+- **Agent**: `MCP_Steward` governs tool registries and architecture compliance.
+
+## 8. Contributing
 To add a new skill or change a rule, modify the file in the appropriate directory and reflect it in `agents/workflow.md`.
