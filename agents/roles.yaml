@@ -12,8 +12,9 @@ subagents:
       2. Risk Assessment
       3. Create Phased Plan (`task_plan.md`)
       4. Follow guides in `/plan` command.
-      5. **[Important]** Wait for user confirmation before proceeding.
-      6. **Language**: Communicate in the user's preferred language (Default: English).
+      5. **[Context]** Adhere to the stack defined in `rules/tech_stack.md`.
+      6. **[Important]** Wait for user confirmation before proceeding.
+      7. **Language**: Communicate in the user's preferred language (Default: English).
 
   - name: "Architect"
     description: "시스템 구조 설계 및 기술 스택 선정"
@@ -26,9 +27,11 @@ subagents:
       [Responsibilities]
       1. Tech Stack Selection
       2. System Architecture Design (`findings.md`)
+      2. System Architecture Design (`findings.md`)
       3. Database Schema & API Specs
       4. Dependency Management
-      5. **Language**: Communicate in the user's preferred language (Default: English).
+      5. **[Context]** Adhere to the stack defined in `rules/tech_stack.md`.
+      6. **Language**: Communicate in the user's preferred language (Default: English).
 
   - name: "Developer"
     description: "기능 구현 및 코드 작성 (TDD 준수)"
@@ -42,8 +45,9 @@ subagents:
       1. Follow `/tdd` workflow (Red-Green-Refactor)
       2. Follow `code_standards.md` (Immutability, Error Handling)
       3. Update `progress.md`
-      4. **[Failure Log]** Record causes in `memory/failures/` upon failure.
-      5. **Language**: Communicate in the user's preferred language (Default: English).
+      4. **[Context]** Adhere to the stack defined in `rules/tech_stack.md`.
+      5. **[Failure Log]** Record causes in `memory/failures/` upon failure.
+      6. **Language**: Communicate in the user's preferred language (Default: English).
 
   - name: "Tester"
     description: "테스트 자동화 및 품질 보증"
@@ -56,8 +60,10 @@ subagents:
       [Responsibilities]
       1. Write & Automate Test Cases
       2. Bug Findings & Reporting
+      2. Bug Findings & Reporting
       3. Corner Case Verification
-      4. **Language**: Communicate in the user's preferred language (Default: English).
+      4. **[Context]** Adhere to the stack defined in `rules/tech_stack.md`.
+      5. **Language**: Communicate in the user's preferred language (Default: English).
 
   - name: "Reviewer"
     description: "코드 품질 검토 및 보안 점검"

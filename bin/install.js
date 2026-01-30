@@ -36,12 +36,32 @@ function main() {
         // Git clone
         execSync(`git clone ${REPO_URL} "${targetDir}"`, { stdio: 'inherit' });
 
+        console.log('\n📦 Installing dependencies...');
+        try {
+            execSync('npm install', { cwd: targetDir, stdio: 'inherit' });
+        } catch (e) {
+            console.warn('⚠️ Dependency installation failed. Please run "npm install" manually.');
+        }
+
+        // Context Analysis
+        const analyzeScript = path.join(targetDir, 'bin', 'analyze.js');
+        if (fs.existsSync(analyzeScript)) {
+            console.log('\n🔍 Starting Context Analysis...');
+            try {
+                // Use spawnSync with inherit to allow user interaction (input/output)
+                const { spawnSync } = require('child_process');
+                spawnSync('node', [analyzeScript], { stdio: 'inherit' });
+            } catch (e) {
+                console.warn('⚠️ Analysis script failed:', e.message);
+            }
+        }
+
         console.log('\n✅ Installation Successful!');
+        console.log(`\nLocation: ${targetDir}`);
         console.log('\nNext Steps:');
         console.log(`  1. cd "${targetDir}"`);
-        console.log('  2. npm install');
-        console.log('  3. Configure mcp/mcp_config.json');
-        console.log('  4. Review README.md');
+        console.log('  2. Configure mcp/mcp_config.json');
+        console.log('  3. Start using the agent!');
 
     } catch (err) {
         console.error('\n❌ Installation Failed:', err.message);
