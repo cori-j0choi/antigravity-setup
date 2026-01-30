@@ -1,59 +1,59 @@
-# Antigravity 메타 파이프라인 트렌드 제안서
+# Antigravity Meta-Pipeline Trend Proposal
 
-이 문서는 Antigravity의 **개발-검증-회고** 파이프라인 품질을 높이기 위해
-최근 트렌드에 맞춘 스킬, 에이전트, 도구, MCP 보강 항목을 제안합니다.
+This document proposes skill, agent, tool, and MCP enhancements aligned with recent trends
+to improve the quality of Antigravity's **Dev-Verify-Retro** pipeline.
 
-## 1. 핵심 트렌드 요약
+## 1. Key Trend Summary
 
 1. **Eval-Driven Development (EDD)**
-   - 정답형 테스트 + 휴리스틱 평가(LLM Judge) + 회귀 벤치마크를 통합합니다.
-   - 품질 하락을 조기에 감지하고 릴리스 리스크를 낮춥니다.
+   - Integrates deterministic tests + heuristic evaluation (LLM Judge) + regression benchmarks.
+   - Detects quality degradation early and reduces release risks.
 
-2. **Prompt & Tool Security 강화**
-   - 프롬프트 인젝션, 도구 오남용, 데이터 유출 대응을 체계화합니다.
-   - Red-Teaming과 정책 준수 검증을 자동화합니다.
+2. **Prompt & Tool Security Reinforcement**
+   - Systematizes defense against prompt injection, tool misuse, and data leakage.
+   - Automates Red-Teaming and policy compliance verification.
 
-3. **Observability & 비용 최적화**
-   - 추론 비용, 지연시간, 토큰 사용량을 정량화합니다.
-   - 파이프라인의 병목과 품질 저하를 지속적으로 모니터링합니다.
+3. **Observability & Cost Optimization**
+   - Quantifies inference costs, latency, and token usage.
+   - Continuously monitors pipeline bottlenecks and quality degradation.
 
 4. **Synthetic Data & Scenario Testing**
-   - 엣지/롱테일 케이스를 자동 생성해 회귀 테스트에 포함합니다.
-   - 시나리오 기반 품질 평가로 바이브 코딩의 일관성을 확보합니다.
+   - Auto-generates edge/long-tail cases for regression testing.
+   - Ensures consistency of vibe coding through scenario-based quality assessment.
 
-5. **Tooling 신뢰성 (Tool Reliability)**
-   - 툴 호출 실패율, 재시도 정책, 폴백 전략을 관리합니다.
-   - 도구 기반 에이전트의 안정성을 높입니다.
+5. **Tooling Reliability**
+   - Manages tool call failure rates, retry policies, and fallback strategies.
+   - Increases the stability of tool-based agents.
 
-## 2. 추가 스킬 제안 (Skills)
+## 2. Proposed Skills
 
-- **트렌드 레이더/기술 스캐닝**: 신규 도구, 모델, 프레임워크의 적용 가능성 평가.
-- **Evals & 회귀 벤치마크 설계**: Golden set, 시나리오 세트, LLM Judge 체계화.
-- **Red-Teaming & Prompt Security**: 인젝션/탈출/데이터 유출 대응 절차 정리.
-- **Observability & Cost Control**: 비용/성능/품질 지표를 통합 추적.
-- **Synthetic Test Generation**: 자동 시나리오 생성으로 안정적 품질 확보.
+- **Trend Radar/Tech Scanning**: Assessing applicability of new tools, models, and frameworks.
+- **Evals & Regression Benchmark Design**: Systematizing Golden sets, scenario sets, and LLM Judges.
+- **Red-Teaming & Prompt Security**: Procedures for handling injection/escape/data leakage.
+- **Observability & Cost Control**: Integrated tracking of cost/performance/quality metrics.
+- **Synthetic Test Generation**: Ensuring stable quality via auto-generated scenarios.
 
-## 3. 에이전트 확장 제안 (Agents)
+## 3. Proposed Agent Extensions
 
-- **Evals Lead**: 품질 지표, 벤치마크, 회귀 테스트 책임.
-- **Security/Red Team**: 보안 취약점/프롬프트 정책 점검.
-- **Ops/Observability**: 비용/지연시간/로그 통합 관측 및 최적화.
+- **Evals Lead**: Responsible for quality metrics, benchmarks, and regression testing.
+- **Security/Red Team**: Checks for security vulnerabilities and prompt policies.
+- **Ops/Observability**: Integrated observation and optimization of costs/latency/logs.
 
-## 4. 도구 및 MCP 확장 제안 (Tools & MCP)
+## 4. Proposed Tool & MCP Extensions
 
-- **LLM 평가 프레임워크 연동**: LLM Judge 기반 평가 자동화.
-- **보안 테스트 도구 연동**: 프롬프트/툴 보안 스캐너 적용.
-- **관측성 스택 연동**: 트레이싱, 비용/성능 대시보드 연결.
-- **Tool Mocking/Replay**: 툴 호출 재현으로 회귀 테스트 안정화.
+- **LLM Evaluation Framework Integration**: Automating LLM Judge-based assessments.
+- **Security Test Tool Integration**: Applying prompt/tool security scanners.
+- **Observability Stack Integration**: Connecting tracing, cost/performance dashboards.
+- **Tool Mocking/Replay**: Stabilizing regression testing via tool call reproduction.
 
-## 5. 파이프라인 적용 가이드
+## 5. Pipeline Application Guide
 
-1. `/plan` 단계에서 **트렌드 레이더** 수행.
-2. `/tdd` 직후 **/eval**로 회귀 벤치마크 적용.
-3. `/verify` 단계에 **/redteam** 병행.
-4. `/learn` 단계에 **관측성 지표 분석** 포함.
+1. Perform **Trend Radar** during `/plan` phase.
+2. Apply **Regression Benchmarks** via **/eval** immediately after `/tdd`.
+3. Run **/redteam** concurrently during `/verify` phase.
+4. Include **Observability Metric Analysis** during `/learn` phase.
 
 ---
 
-> 위 제안은 Antigravity의 기존 역할과 워크플로우를 유지하면서
-> 품질/안전/성능 관점의 트렌드를 추가하는 방향에 초점을 맞춥니다.
+> This proposal focuses on adding trends from quality, safety, and performance perspectives
+> while maintaining Antigravity's existing roles and workflows.
