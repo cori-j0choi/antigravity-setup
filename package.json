@@ -2,6 +2,9 @@
     "name": "antigravity-setup",
     "version": "1.0.0",
     "description": "Configuration and tools for Antigravity Agentic Environment",
+    "bin": {
+        "antigravity-setup": "./bin/install.js"
+    },
     "scripts": {
         "setup": "npm install",
         "test": "echo \"Error: no test specified\" && exit 1"

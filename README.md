@@ -22,15 +22,27 @@ This setup package provides the following core values:
 - **Python** (v3.10+): Recommended when using Python-related skills.
 - **Git**: Essential for version control.
 
-### 2.2 Install MCP Servers
-Install the necessary packages to activate the tools defined in `mcp/mcp_config.json`.
+### 2.2 Install via NPX (Recommended)
+This is the easiest way to get started. It clones the repository and sets up the environment.
 
 ```bash
-# Install dependencies (MCP servers)
+# Installs to ~/.agent/antigravity-setup by default
+npx antigravity-setup
+
+# Or specify a custom directory
+npx antigravity-setup ./my-antigravity
+```
+
+### 2.3 Manual Installation
+If you prefer to clone manually:
+
+```bash
+git clone https://github.com/cori-j0choi/antigravity-setup.git
+cd antigravity-setup
 npm install
 ```
 
-### 2.3 Environment Variables Configuration
+### 2.4 Environment Variables Configuration
 You need to set the following values in `mcp_config.json` or system environment variables.
 
 - `GITHUB_PERSONAL_ACCESS_TOKEN`: Token with access rights to GitHub repositories.
