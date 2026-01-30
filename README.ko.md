@@ -25,11 +25,8 @@
 `mcp/mcp_config.json`에 정의된 도구들을 활성화하기 위해 필요한 패키지를 설치합니다.
 
 ```bash
-# 1. MCP 서버 패키지 설치 (Global 또는 프로젝트 로컬)
-npm install -g @modelcontextprotocol/server-filesystem
-npm install -g @modelcontextprotocol/server-memory
-npm install -g @modelcontextprotocol/server-github
-npm install -g @modelcontextprotocol/server-sequential-thinking
+# 의존성 패키지(MCP 서버) 일괄 설치
+npm install
 ```
 
 ### 2.3 환경 변수 설정

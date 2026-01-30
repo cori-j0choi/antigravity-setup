@@ -1,0 +1,17 @@
+{
+    "name": "antigravity-setup",
+    "version": "1.0.0",
+    "description": "Configuration and tools for Antigravity Agentic Environment",
+    "scripts": {
+        "setup": "npm install",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/server-filesystem": "^0.6.2",
+        "@modelcontextprotocol/server-github": "^0.6.2",
+        "@modelcontextprotocol/server-memory": "^0.6.2",
+        "@modelcontextprotocol/server-sequential-thinking": "^0.2.0"
+    },
+    "author": "Antigravity Team",
+    "license": "MIT"
+}

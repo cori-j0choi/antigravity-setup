@@ -25,11 +25,8 @@ This setup package provides the following core values:
 Install the necessary packages to activate the tools defined in `mcp/mcp_config.json`.
 
 ```bash
-# 1. Install MCP server packages (Global or Project local)
-npm install -g @modelcontextprotocol/server-filesystem
-npm install -g @modelcontextprotocol/server-memory
-npm install -g @modelcontextprotocol/server-github
-npm install -g @modelcontextprotocol/server-sequential-thinking
+# Install dependencies (MCP servers)
+npm install
 ```
 
 ### 2.3 Environment Variables Configuration
