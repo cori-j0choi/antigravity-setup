@@ -48,6 +48,12 @@ npx antigravity-setup
 - **결과**: `rules/tech_stack.md` 파일을 생성합니다.
 - **효과**: 모든 에이전트가 별도의 설정 없이도 감지된 기술 스택에 맞춰 코드를 작성합니다.
 
+### 2.6 자동 구성 (IDE 통합)
+마지막으로, `bin/configure.js`가 실행되어 프로젝트 루트에 `.cursorrules` 파일을 생성합니다.
+- **목적**: LLM(Cursor, Windsurf 등)이 Antigravity 컨텍스트를 자동으로 인식하도록 합니다.
+- **내용**: `roles.yaml`, `workflow.md`, 그리고 생성된 `tech_stack.md`를 참조합니다.
+- **결과**: 수동 설정 없이 즉시 `/plan`, `/tdd` 등의 명령어를 사용할 수 있습니다.
+
 ## 3. 사용 가이드 (Usage Guide)
 
 ### 3.1 프로젝트 시작 (`/plan`)
