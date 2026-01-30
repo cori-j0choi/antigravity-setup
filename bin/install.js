@@ -48,11 +48,21 @@ function main() {
         if (fs.existsSync(analyzeScript)) {
             console.log('\n🔍 Starting Context Analysis...');
             try {
-                // Use spawnSync with inherit to allow user interaction (input/output)
                 const { spawnSync } = require('child_process');
                 spawnSync('node', [analyzeScript], { stdio: 'inherit' });
             } catch (e) {
                 console.warn('⚠️ Analysis script failed:', e.message);
+            }
+        }
+
+        // Auto-Configuration (.cursorrules)
+        const configScript = path.join(targetDir, 'bin', 'configure.js');
+        if (fs.existsSync(configScript)) {
+            try {
+                const { spawnSync } = require('child_process');
+                spawnSync('node', [configScript], { stdio: 'inherit' });
+            } catch (e) {
+                console.warn('⚠️ Configuration script failed:', e.message);
             }
         }
 
