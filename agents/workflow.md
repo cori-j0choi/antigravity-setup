@@ -1,56 +1,72 @@
-# Antigravity 워크플로우 (Manus Protocol)
+# Antigravity Workflow (Manus Protocol)
 
-Antigravity 에이전트는 다음 프로토콜에 따라 협업합니다.
+Antigravity agents collaborate according to the following protocol.
 
-## 1. 초기화 (Initialization)
-- **Shared Context**: `task_plan.md`, `findings.md`, `progress.md` 파일을 통해 상태를 공유합니다.
+## 1. Initialization
+- **Shared Context**: State is shared via `task_plan.md`, `findings.md`, and `progress.md`.
 - **Language Rule**: Follows `00_language.rules.md` (Default: English, Option: Korean).
 
-## 2. 단계별 프로세스 (Phased Process)
+## 2. Phased Process
 
 ### Phase 1: Planning (`/plan`)
-- **주체**: Planner
-- **활동**:
-  1.  사용자 요청 분석.
-  2.  `memory/lessons/` 참조하여 과거 실패 패턴 확인.
-  3.  `task_plan.md` 작성 및 사용자 승인 요청.
-  4.  **[/spec]** 상세 명세서 작성 (`reports/specs/`).
-- **종료 조건**: 사용자의 명시적 승인 (Confirmation).
+- **Owner**: Planner
+- **Activities**:
+  1.  Analyze user request.
+  2.  Refer to `memory/lessons/` for past failure patterns.
+  3.  Create `task_plan.md` and request user approval.
+  4.  **[/spec]** Create detailed specification (`reports/specs/`).
+  5.  **[/trend]** Conduct Trend Radar (`reports/recommendations/`).
+- **Exit Condition**: User's explicit Confirmation.
 
 ### Phase 2: Design
-- **주체**: Architect
-- **활동**:
-  1.  `task_plan.md` 기반 기술 설계.
-  2.  `findings.md`에 아키텍처 및 스키마 정의.
-- **종료 조건**: 설계 문서 완료.
+- **Owner**: Architect
+- **Activities**:
+  1.  Technical design based on `task_plan.md`.
+  2.  Define architecture and schema in `findings.md`.
+- **Exit Condition**: Design documentation complete.
 
 ### Phase 3: Execution (`/tdd`)
-- **주체**: Developer, Tester
-- **활동**:
-  1.  **Red**: Tester가 실패하는 테스트 작성.
-  2.  **Green**: Developer가 최소 구현.
-  3.  **Refactor**: Developer가 코드 개선.
-  4.  **Log**: 실패 시 `memory/failures/` 기록.
-  5.  `progress.md` 업데이트.
-- **종료 조건**: 모든 테스트 통과 (All Green).
+- **Owner**: Developer, Tester
+- **Activities**:
+  1.  **Red**: Tester writes failing test.
+  2.  **Green**: Developer implements minimal code.
+  3.  **Refactor**: Developer improves code.
+  4.  **Log**: Record `memory/failures/` on failure.
+  5.  Update `progress.md`.
+- **Exit Condition**: All tests pass (All Green).
 
 ### Phase 4: Verification (`/verify`)
-- **주체**: Tester
-- **활동**:
-  1.  빌드, 테스트, 린트, 보안 검사 수행.
-  2.  **Report**: `reports/verification/`에 검증 리포트 생성.
-- **종료 조건**: 모든 항목 PASS 및 리포트 생성 완료.
+- **Owner**: Tester
+- **Activities**:
+  1.  Perform Build, Test, Lint, Security checks.
+  2.  **Report**: Generate verification report in `reports/verification/`.
+- **Exit Condition**: All items PASS and report generated.
+
+### Phase 4.1: Evaluation (`/eval`)
+- **Owner**: Tester, Reviewer
+- **Activities**:
+  1.  Perform Regression Benchmarks and LLM Judge evaluation.
+  2.  Compare quality metrics and detect degradation.
+- **Exit Condition**: Evaluation report generated and Quality Gate passed.
+
+### Phase 4.2: Red Team (`/redteam`)
+- **Owner**: Reviewer, Security
+- **Activities**:
+  1.  Test Prompt Injection and Tool Misuse.
+  2.  Generate Vulnerability Report and Mitigation Strategies.
+- **Exit Condition**: No critical vulnerabilities or fixes applied.
 
 ### Phase 5: Code Review (`/review`)
-- **주체**: Reviewer
-- **활동**:
-  1.  검증 리포트 확인.
-  2.  코드 품질, 스타일, 보안 검토.
-  2.  `code_standards.md` 준수 여부 확인.
-- **종료 조건**: Reviewer 승인.
+- **Owner**: Reviewer
+- **Activities**:
+  1.  Check Verification Report.
+  2.  Review Code Quality, Style, and Security.
+  3.  Check compliance with `code_standards.md`.
+- **Exit Condition**: Reviewer Approval.
 
 ### Phase 6: Retrospection (`/learn`)
-- **주체**: All Agents
-- **활동**:
-  1.  프로젝트 종료 후 회고.
-  2.  `memory/failures/` 분석 -> `memory/lessons/`로 지식화.
+- **Owner**: All Agents
+- **Activities**:
+  1.  Retrospective after project completion.
+  2.  Analyze `memory/failures/` -> Turn into knowledge in `memory/lessons/`.
+  3.  Derive improvements based on observability metrics (Cost, Latency, Quality).

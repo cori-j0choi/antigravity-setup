@@ -13,6 +13,7 @@ This setup package provides the following core values:
 - **Manus Protocol Implementation**: Systematic collaboration protocol (`agents/workflow.md`).
 - **Language flexibility**: English by default, with an option for Korean (`rules/00_language.rules.md`).
 - **Meta-Learning**: A pipeline that learns from failures and evolves (`memory/failures/`, `skills/continuous-learning`).
+- **Trend Alignment**: Trend-based skill/agent expansion (`reports/recommendations/`).
 
 ## 2. Installation & Setup
 
@@ -81,20 +82,29 @@ Extract and save lessons when the work is done.
 ```
 
 - Analyzes failure logs and saves them as permanent knowledge (Instinct) in `memory/lessons/`.
+- **[NEW]** `/eval`, `/redteam`, `/observe` steps reinforce Quality/Security/Observability.
+
+### 3.5 Trend Radar (`/trend`)
+Examines latest tools/agents/skills to improve meta-pipeline quality.
+
+- Results are saved in `reports/recommendations/`.
 
 ## 4. Directory Structure
 
 ```
 antigravity-setup/
 ├── agents/                  # Agent roles (roles.yaml) and workflow (workflow.md)
-├── skills/                  # Specialized skills by phase (Planning, Design, Implementation, Testing, Learning)
-│   ├── specification-writer # [NEW] Spec writing skill
-│   └── verification-reporter # [NEW] Verification reporting skill
+├── skills/                  # Specialized skills by phase
+│   ├── 01_planning/         # Planning skills (Trend Radar, etc.)
+│   ├── 03_implementation/   # Implementation skills (Tool Reliability, etc.)
+│   ├── 04_testing/          # Testing skills (Evals, Red-Team)
+│   └── 05_learning/         # Learning skills (Observability Retro)
 ├── rules/                   # [First Principle] Korean usage and coding standards
 ├── mcp/                     # MCP tool configuration (mcp_config.json)
 ├── tools/                   # Slash command definitions (commands.md)
 ├── memory/                  # Meta-learning storage (failures/, lessons/)
 ├── reports/                 # [NEW] Output storage (specs/, verification/)
+│   └── recommendations/     # [NEW] Trend recommendations
 └── hooks/                   # [NEW] Automated workflow hooks (hooks.json)
 ```
 
