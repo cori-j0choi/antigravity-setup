@@ -1,0 +1,62 @@
+{
+    "hooks": {
+        "SessionStart": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/session-start.js\""
+                    }
+                ],
+                "description": "Load context and lessons on session start"
+            }
+        ],
+        "SessionEnd": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/session-end.js\""
+                    }
+                ],
+                "description": "Persist session state to memory"
+            }
+        ],
+        "PreToolUse": [
+            {
+                "matcher": "tool == \"Bash\" && tool_input.command matches \"git push\"",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node -e \"console.error('[Hook] ⚠️  Pushing to remote... did you run /verify?');\""
+                    }
+                ],
+                "description": "Reminder before git push"
+            },
+            {
+                "matcher": "tool == \"Write\" && tool_input.file_path matches \"\\\\.(md|txt)$\" && !(tool_input.file_path matches \"(README|task_plan|findings|progress|SPEC|VERIFY)\\\\.md\") && !(tool_input.file_path matches \"memory/|reports/\")",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node -e \"console.error('[Hook] ⚠️  Creating unclassified markdown file. Ensure it belongs in reports/ or memory/, or use standard artifacts.');\""
+                    }
+                ],
+                "description": "Warn about unorganized markdown files"
+            }
+        ],
+        "PostToolUse": [
+            {
+                "matcher": "tool == \"Edit\" && tool_input.file_path matches \"\\\\.(ts|tsx|js|jsx)$\"",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/check-console.js\""
+                    }
+                ],
+                "description": "Check for console.log after edits"
+            }
+        ]
+    }
+}

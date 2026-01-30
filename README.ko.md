@@ -94,8 +94,18 @@ antigravity-setup/
 ├── mcp/                     # MCP 도구 설정 (mcp_config.json)
 ├── tools/                   # 슬래시 커맨드 정의 (commands.md)
 ├── memory/                  # 메타 러닝 저장소 (failures/, lessons/)
-└── reports/                 # [NEW] 산출물 저장소 (specs/, verification/)
+├── reports/                 # [NEW] 산출물 저장소 (specs/, verification/)
+└── hooks/                   # [NEW] 자동화 훅 설정 (hooks.json)
 ```
 
-## 5. 기여 (Contributing)
+## 5. Hooks System (자동화 훅)
+`hooks/hooks.json`에 정의된 자동화 훅이 워크플로우를 보조합니다:
+- **Session Start**: `memory/lessons/`에서 이전 교훈을 로드하여 컨텍스트를 제공합니다.
+- **Session End**: 세션 로그를 `memory/sessions/`에 저장합니다.
+- **Pre-Tool Safety**:
+    - `git push` 전 검증 리마인더를 표시합니다.
+    - 규칙에 어긋나는 무분별한 마크다운 파일 생성을 방지합니다.
+- **Quality Checks**: 파일 수정 후 남아있는 `console.log`를 감지하여 경고합니다.
+
+## 6. 기여 (Contributing)
 새로운 스킬을 추가하거나 규칙을 변경하려면 해당 디렉토리의 파일을 수정하고, `agents/workflow.md`에 반영해 주세요.

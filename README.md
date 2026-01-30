@@ -94,8 +94,18 @@ antigravity-setup/
 ├── mcp/                     # MCP tool configuration (mcp_config.json)
 ├── tools/                   # Slash command definitions (commands.md)
 ├── memory/                  # Meta-learning storage (failures/, lessons/)
-└── reports/                 # [NEW] Output storage (specs/, verification/)
+├── reports/                 # [NEW] Output storage (specs/, verification/)
+└── hooks/                   # [NEW] Automated workflow hooks (hooks.json)
 ```
 
-## 5. Contributing
+## 5. Hooks System
+Antigravity includes automated hooks configured in `hooks/hooks.json` to assist your workflow:
+- **Session Start**: Loads context from `memory/lessons/`.
+- **Session End**: Saves session logs to `memory/sessions/`.
+- **Pre-Tool Safety**:
+    - Warnings before `git push` (reminds to verify).
+    - Prevents creation of unorganized markdown files.
+- **Quality Checks**: Detects `console.log` leftovers after file edits.
+
+## 6. Contributing
 To add a new skill or change a rule, modify the file in the appropriate directory and reflect it in `agents/workflow.md`.
