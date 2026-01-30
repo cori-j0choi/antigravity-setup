@@ -1,24 +1,24 @@
-# Antigravity 언어 규칙 (Language Rules)
+# Antigravity Language Options (언어 설정)
 
-## [제1원칙] 한글 사용 (Korean First)
+## Core Principle: English Default, Korean Option
+Antigravity uses **English** as the primary language for communication and documentation by default. However, users can configure it to use **Korean** if preferred.
 
-Antigravity 프로젝트의 모든 의사소통과 문서화는 **한국어(Korean)**를 기본으로 합니다.
+## 1. Options
 
-### 1. 적용 범위
-- **계획 및 설계 문서**: `implementation_plan.md`, `task_plan.md`, `findings.md` 등 모든 아티팩트.
-- **코드 주석 및 설명**: 소스 코드 내의 주석, 독스트링(Docstring).
-- **에이전트 간 대화**: Planner, Architect, Developer 등 에이전트 간의 모든 통신 및 프롬프트 응답.
-- **사용자 커뮤니케이션**: 사용자에게 진행 상황을 보고하거나 질문할 때.
-- **Git 커밋 메시지**: 커밋 제목과 본문.
+### Option A: English Mode (Default)
+- **Artifacts**: `task_plan.md`, `findings.md`, etc. are written in English.
+- **Communication**: Agents communicate in English.
+- **Usage**: No additional configuration needed.
 
-### 2. 예외 (Exceptions)
-다음의 경우에는 영어를 사용할 수 있습니다:
-- **프로그래밍 언어의 예약어 및 문법**: `if`, `for`, `class`, `import` 등.
-- **라이브러리명 및 공식 용어**: `React`, `Next.js`, `TensorFlow` 등 고유 명사.
-- **번역 시 의미가 변질될 우려가 있는 전문 용어**: 원어를 병기하여 표기 (예: `의존성 주입(Dependency Injection)`).
-- **국제 표준이나 외부 협업이 필수적인 경우**: 별도의 지시가 있을 때만 한정적으로 허용.
+### Option B: Korean Mode (한국어 모드)
+- **Artifacts**: 모든 문서와 계획을 **한글**로 작성합니다.
+- **Communication**: 에이전트들이 **한글**로 소통합니다.
+- **Usage**:
+    1. Add a rule file or instruction explicitly stating "Use Korean".
+    2. Or start the conversation with: "Let's work in Korean" or "한글로 진행해줘".
 
-### 3. 스타일 가이드
-- **명확성**: 번역투보다는 자연스러운 한국어 표현을 사용합니다.
-- **존댓말**: 사용자 및 동료 에이전트에게는 정중한 경어체(합니다, 습니다)를 사용합니다.
-- **전문성**: 기술 용어는 정확하게 사용하되, 필요시 설명을 덧붙입니다.
+## 2. Style Guide
+Regardless of the language chosen:
+- **Clarity**: Be concise and clear.
+- **Technical Terms**: Use standard industry terminology (e.g., Dependency Injection, CI/CD).
+- **Politeness**: Maintain a professional and respectful tone.

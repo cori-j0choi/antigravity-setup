@@ -4,7 +4,7 @@ Antigravity 에이전트는 다음 프로토콜에 따라 협업합니다.
 
 ## 1. 초기화 (Initialization)
 - **Shared Context**: `task_plan.md`, `findings.md`, `progress.md` 파일을 통해 상태를 공유합니다.
-- **Language Rule**: 모든 의사소통은 `00_language.rules.md`에 따라 **한글**로 진행합니다.
+- **Language Rule**: Follows `00_language.rules.md` (Default: English, Option: Korean).
 
 ## 2. 단계별 프로세스 (Phased Process)
 

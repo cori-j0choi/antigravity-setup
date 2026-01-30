@@ -11,7 +11,7 @@ This document guides you through the installation, configuration, and usage of t
 This setup package provides the following core values:
 - **Role-Based Collaboration**: Clear role division and responsibility definition (`agents/roles.yaml`).
 - **Manus Protocol Implementation**: Systematic collaboration protocol (`agents/workflow.md`).
-- **Korean First**: All documentation and communication are in Korean (`rules/00_language.rules.md`).
+- **Language flexibility**: English by default, with an option for Korean (`rules/00_language.rules.md`).
 - **Meta-Learning**: A pipeline that learns from failures and evolves (`memory/failures/`, `skills/continuous-learning`).
 
 ## 2. Installation & Setup

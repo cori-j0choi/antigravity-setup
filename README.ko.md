@@ -11,7 +11,7 @@
 이 설정 패키지는 다음 핵심 가치를 제공합니다:
 - **Role-Based Collaboration**: 명확한 역할 분담과 책임 정의 (`agents/roles.yaml`).
 - **Manus Protocol Implementation**: 체계적인 협업 프로토콜 (`agents/workflow.md`).
-- **Korean First**: 모든 문서화 및 소통의 한글화 (`rules/00_language.rules.md`).
+- **Language flexibility**: 기본은 영어지만, 설정에 따라 한글 사용 가능 (`rules/00_language.rules.md`).
 - **Meta-Learning**: 실패로부터 배우고 진화하는 파이프라인 (`memory/failures/`, `skills/continuous-learning`).
 
 ## 2. 설치 및 설정 (Installation & Setup)
