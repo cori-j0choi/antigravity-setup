@@ -59,6 +59,36 @@ async function main() {
     console.log(`   Project Root detected at: ${PROJECT_ROOT}`);
     console.log(`   Antigravity installed at: ${SETUP_DIR}`);
 
+    // Check Git Status from tech_stack.md
+    const techStackPath = path.join(SETUP_DIR, 'rules', 'tech_stack.md');
+    let hasGit = true;
+    if (fs.existsSync(techStackPath)) {
+        const content = fs.readFileSync(techStackPath, 'utf8');
+        if (content.includes('VCS: None')) {
+            hasGit = false;
+        }
+    }
+
+    // Configure MCP
+    if (!hasGit) {
+        console.log('\n🚫 No Git repository detected. Disabling GitHub MCP...');
+        const mcpConfigPath = path.join(SETUP_DIR, 'mcp', 'mcp_config.json');
+        if (fs.existsSync(mcpConfigPath)) {
+            try {
+                const mcpConfig = JSON.parse(fs.readFileSync(mcpConfigPath, 'utf8'));
+                if (mcpConfig.mcpServers && mcpConfig.mcpServers.github) {
+                    delete mcpConfig.mcpServers.github; // Remove github server
+                    fs.writeFileSync(mcpConfigPath, JSON.stringify(mcpConfig, null, 2));
+                    console.log('✅ GitHub MCP disabled in mcp_config.json');
+                }
+            } catch (e) {
+                console.warn('⚠️ Failed to update mcp_config.json:', e.message);
+            }
+        }
+    } else {
+        console.log('\n✅ Git repository detected. GitHub MCP enabled.');
+    }
+
     const contextContent = generateContext();
 
     if (fs.existsSync(CONTEXT_FILE)) {

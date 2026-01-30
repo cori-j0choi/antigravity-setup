@@ -13,8 +13,9 @@ subagents:
       3. Create Phased Plan (`task_plan.md`)
       4. Follow guides in `/plan` command.
       5. **[Context]** Adhere to the stack defined in `rules/tech_stack.md`.
-      6. **[Important]** Wait for user confirmation before proceeding.
-      7. **Language**: Communicate in the user's preferred language (Default: English).
+      6. **[Git]** Check `rules/tech_stack.md` for VCS status. If `None`, do NOT include GitHub steps (PR/Issues).
+      7. **[Important]** Wait for user confirmation before proceeding.
+      8. **Language**: Communicate in the user's preferred language (Default: English).
 
   - name: "Architect"
     description: "시스템 구조 설계 및 기술 스택 선정"
