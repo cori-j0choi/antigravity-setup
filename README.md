@@ -58,16 +58,19 @@ During installation (`npx` or manual), the setup script will prompt you to analy
 - **Output**: Generates `rules/tech_stack.md`.
 - **Effect**: All agents will automatically adapt their code generation to follow the detected tech stack.
 
-### 2.6 Auto-Configuration (Context File)
-Finally, the setup runs `bin/configure.js` to generate an `AGENTS.md` file in your project root.
-- **Purpose**: Provides a single context file for your LLM / Agent.
-- **Content**: References `roles.yaml`, `workflow.md`, and the generated `tech_stack.md`.
-- **Action**: Just open this file in your IDE or pass it to your Agent as context.
+### 2.6 Interactive Configuration
+The setup script `bin/configure.js` will now guide you through the configuration process:
+
+1.  **Git Provider Selection**: Choose between GitHub (default) and Gitea.
+2.  **Credentials**:
+    -   **GitHub**: Prepare your Personal Access Token.
+    -   **Gitea**: Enter your instances URL (e.g., `https://gitea.com`) and Access Token.
+    -   **Gitea Mode**: Choose between Docker (recommended) or local binary execution.
+3.  **Context Creation**: Generates `AGENTS.md` in your project root.
 
 > [!NOTE]
-> **Git-Aware Awareness**: The setup automatically checks for `.git`.
-> - If found: Enables `github` MCP (Issues, PRs).
-> - If missing: Disables `github` MCP to prevent errors.
+> **Git-Aware Awareness**: The setup automatically handles MCP configuration based on your selection.
+
 
 ## 3. Usage Guide
 

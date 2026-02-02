@@ -47,16 +47,18 @@ npm install
 
 - `GITHUB_PERSONAL_ACCESS_TOKEN`: GitHub 저장소 접근 권한이 있는 토큰.
 
-### 2.5 에이전트 설정 연동 (Agent Configuration Integration)
-사용 중인 LLM 에이전트 시스템(예: Claude Desktop, Custom Agent Runner)에 이 디렉토리를 **Context**로 제공하거나 **Config Path**로 지정해야 합니다.
+### 2.6 대화형 설정 (Interactive Configuration)
+설치 스크립트 `bin/configure.js`가 대화형으로 설정을 안내합니다:
 
-- **Context Path**: `d:\2026\08_antigravity_everything_code\antigravity-setup`
+1.  **Git 공급자 선택**: GitHub(기본값) 또는 Gitea 중 선택합니다.
+2.  **인증 정보**:
+    -   **GitHub**: Personal Access Token을 준비하세요.
+    -   **Gitea**: 인스턴스 URL(예: `https://gitea.com`)과 Access Token을 입력합니다.
+    -   **Gitea 모드**: Docker(추천) 또는 로컬 바이너리 실행 중 선택합니다.
+3.  **컨텍스트 생성**: 프로젝트 루트에 `AGENTS.md`를 생성합니다.
 
-### 2.6 컨텍스트 인식 설정 (Context-Aware Setup)
-설치 과정(`npx` 또는 수동)에서 타겟 프로젝트를 분석할지 묻습니다.
-- **동작**: 프로젝트 언어(Python, Java 등)와 프레임워크를 자동 탐지합니다.
-- **결과**: `rules/tech_stack.md` 파일을 생성합니다.
-- **효과**: 모든 에이전트가 별도의 설정 없이도 감지된 기술 스택에 맞춰 코드를 작성합니다.
+> [!NOTE]
+> **Git 설정 자동화**: 선택한 공급자에 맞춰 MCP 설정(`mcp_config.json`)이 자동으로 구성됩니다.
 
 ### 2.7 자동 구성 (Context File)
 마지막으로, `bin/configure.js`가 실행되어 프로젝트 루트에 `AGENTS.md` 파일을 생성합니다.

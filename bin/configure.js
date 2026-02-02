@@ -18,6 +18,10 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
+function askQuestion(query) {
+    return new Promise(resolve => rl.question(query, resolve));
+}
+
 function generateContext() {
     // Relative path from ProjectRoot to SetupDir
     const relativeSetupPath = path.relative(PROJECT_ROOT, SETUP_DIR).replace(/\\/g, '/');
@@ -54,65 +58,121 @@ You MUST load and adhere to the following configurations:
 `;
 }
 
+async function configureGitProvider() {
+    console.log('\n🔗 Configure Git Provider (MCP)');
+    console.log('1) GitHub (Default)');
+    console.log('2) Gitea');
+    console.log('3) Skip');
+
+    const choice = await askQuestion('Select Provider [1-3]: ');
+    const mcpConfigPath = path.join(SETUP_DIR, 'mcp', 'mcp_config.json');
+
+    if (!fs.existsSync(mcpConfigPath)) {
+        console.warn('⚠️ mcp_config.json not found. Skipping MCP config.');
+        return;
+    }
+
+    const mcpConfig = JSON.parse(fs.readFileSync(mcpConfigPath, 'utf8'));
+
+    if (choice === '2') { // Gitea
+        const giteaUrl = await askQuestion('Enter Gitea URL (e.g., https://gitea.com): ');
+        const giteaToken = await askQuestion('Enter Gitea Access Token: ');
+
+        console.log('\nSelect Gitea Execution Mode:');
+        console.log('1) Docker (Recommended if installed)');
+        console.log('2) Local Binary');
+        const mode = await askQuestion('Select Mode [1-2]: ');
+
+        // Remove GitHub if exists
+        if (mcpConfig.mcpServers && mcpConfig.mcpServers.github) {
+            delete mcpConfig.mcpServers.github;
+        }
+
+        if (mode === '2') { // Binary
+            const binPath = await askQuestion('Enter absolute path to Gitea MCP binary: ');
+            mcpConfig.mcpServers.gitea = {
+                command: binPath,
+                args: ["-t", "stdio", "--host", giteaUrl],
+                env: {
+                    "GITEA_ACCESS_TOKEN": giteaToken
+                }
+            };
+        } else { // Docker (Default)
+            mcpConfig.mcpServers.gitea = {
+                command: "docker",
+                args: [
+                    "run", "-i", "--rm",
+                    "-e", "GITEA_ACCESS_TOKEN",
+                    "-e", "GITEA_HOST",
+                    "docker.gitea.com/gitea-mcp-server"
+                ],
+                env: {
+                    "GITEA_ACCESS_TOKEN": giteaToken,
+                    "GITEA_HOST": giteaUrl
+                }
+            };
+        }
+        console.log('✅ Gitea MCP configured.');
+
+    } else if (choice === '3') { // Skip
+        console.log('   Skipping Git provider configuration.');
+        // Optionally disable github if previously enabled? 
+        // For now, leave as is or remove if user explicitly wants to skip/disable.
+        // Let's remove default github to be safe if they skip.
+        if (mcpConfig.mcpServers && mcpConfig.mcpServers.github) {
+            // delete mcpConfig.mcpServers.github; 
+            // Actually, skipping might mean "don't change anything", but usually implies "I don't have one".
+            // Let's keep it simple: Skip = Do nothing.
+        }
+
+    } else { // GitHub (Default)
+        const token = await askQuestion('Enter GitHub Personal Access Token (Press Enter to set later): ');
+        if (token.trim()) {
+            if (mcpConfig.mcpServers && mcpConfig.mcpServers.github) {
+                mcpConfig.mcpServers.github.env.GITHUB_PERSONAL_ACCESS_TOKEN = token.trim();
+                console.log('✅ GitHub Token configured.');
+            }
+        } else {
+            console.log('   Token not provided. Please set GITHUB_PERSONAL_ACCESS_TOKEN in mcp_config.json later.');
+        }
+    }
+
+    fs.writeFileSync(mcpConfigPath, JSON.stringify(mcpConfig, null, 2));
+}
+
+
 async function main() {
     console.log(`\n⚙️  Configuring Antigravity Context...`);
     console.log(`   Project Root detected at: ${PROJECT_ROOT}`);
     console.log(`   Antigravity installed at: ${SETUP_DIR}`);
 
-    // Check Git Status from tech_stack.md
-    const techStackPath = path.join(SETUP_DIR, 'rules', 'tech_stack.md');
-    let hasGit = true;
-    if (fs.existsSync(techStackPath)) {
-        const content = fs.readFileSync(techStackPath, 'utf8');
-        if (content.includes('VCS: None')) {
-            hasGit = false;
-        }
-    }
+    // Context Analysis & Git Detection logic could be here, but we are overriding with interactive config.
 
-    // Configure MCP
-    if (!hasGit) {
-        console.log('\n🚫 No Git repository detected. Disabling GitHub MCP...');
-        const mcpConfigPath = path.join(SETUP_DIR, 'mcp', 'mcp_config.json');
-        if (fs.existsSync(mcpConfigPath)) {
-            try {
-                const mcpConfig = JSON.parse(fs.readFileSync(mcpConfigPath, 'utf8'));
-                if (mcpConfig.mcpServers && mcpConfig.mcpServers.github) {
-                    delete mcpConfig.mcpServers.github; // Remove github server
-                    fs.writeFileSync(mcpConfigPath, JSON.stringify(mcpConfig, null, 2));
-                    console.log('✅ GitHub MCP disabled in mcp_config.json');
-                }
-            } catch (e) {
-                console.warn('⚠️ Failed to update mcp_config.json:', e.message);
-            }
-        }
-    } else {
-        console.log('\n✅ Git repository detected. GitHub MCP enabled.');
-    }
+    // Interactive Git Configuration
+    await configureGitProvider();
 
     const contextContent = generateContext();
 
     if (fs.existsSync(CONTEXT_FILE)) {
         console.log(`\n⚠️  AGENTS.md already exists at ${CONTEXT_FILE}`);
-        rl.question('   Overwrite it? (y/N): ', (answer) => {
-            if (answer.toLowerCase() === 'y') {
-                fs.writeFileSync(CONTEXT_FILE, contextContent);
-                console.log('✅ AGENTS.md updated.');
-            } else {
-                console.log('   Skipping configuration.');
-            }
-            rl.close();
-        });
+        const answer = await askQuestion('   Overwrite it? (y/N): ');
+        if (answer.toLowerCase() === 'y') {
+            fs.writeFileSync(CONTEXT_FILE, contextContent);
+            console.log('✅ AGENTS.md updated.');
+        } else {
+            console.log('   Skipping configuration.');
+        }
     } else {
-        rl.question(`\n📝 Create AGENTS.md in project root? (Y/n): `, (answer) => {
-            if (answer.toLowerCase() !== 'n') {
-                fs.writeFileSync(CONTEXT_FILE, contextContent);
-                console.log('✅ AGENTS.md created. Point your LLM to this file context!');
-            } else {
-                console.log('   Skipped.');
-            }
-            rl.close();
-        });
+        const answer = await askQuestion(`\n📝 Create AGENTS.md in project root? (Y/n): `);
+        if (answer.toLowerCase() !== 'n') {
+            fs.writeFileSync(CONTEXT_FILE, contextContent);
+            console.log('✅ AGENTS.md created. Point your LLM to this file context!');
+        } else {
+            console.log('   Skipped.');
+        }
     }
+
+    rl.close();
 }
 
 main();
