@@ -4,6 +4,7 @@ Antigravity agents collaborate according to the following protocol.
 
 ## 1. Initialization
 - **Shared Context**: State is shared via `task_plan.md`, `findings.md`, and `progress.md`.
+- **Memory Compaction**: Use `scripts/swarm/compactor.py` if logs exceed 50 lines.
 - **Language Rule**: Follows `00_language.rules.md` (Default: English, Option: Korean).
 
 ## 2. Phased Process
