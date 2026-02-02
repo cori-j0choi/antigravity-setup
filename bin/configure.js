@@ -11,14 +11,22 @@ const SETUP_DIR = path.resolve(__dirname, '..');
 const hasGit = (dir) => fs.existsSync(path.join(dir, '.git'));
 let PROJECT_ROOT;
 
-if (hasGit(SETUP_DIR)) {
-    // 1. Self-contained repo (e.g. git clone) -> Root is here
+// 1. Check if running from a target project (Global CLI Mode)
+const CWD = process.cwd();
+// If CWD is not the setup dir, and CWD has git, assume CWD is the target project.
+if (path.relative(CWD, SETUP_DIR) !== '' && hasGit(CWD)) {
+    PROJECT_ROOT = CWD;
+}
+// 2. Self-contained repo (Developing Antigravity itself)
+else if (hasGit(SETUP_DIR)) {
     PROJECT_ROOT = SETUP_DIR;
-} else if (path.basename(path.dirname(SETUP_DIR)) === '.agent') {
-    // 2. Standard install (.agent/antigravity-setup) -> Root is 2 levels up
+}
+// 3. Standard install (.agent/antigravity-setup)
+else if (path.basename(path.dirname(SETUP_DIR)) === '.agent') {
     PROJECT_ROOT = path.resolve(SETUP_DIR, '../../');
-} else {
-    // 3. Custom install (./custom) -> Root is ../
+}
+// 4. Fallback
+else {
     PROJECT_ROOT = path.resolve(SETUP_DIR, '../');
 }
 

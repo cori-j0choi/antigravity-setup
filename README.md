@@ -31,6 +31,11 @@ npx antigravity-setup
 
 # Or specify a custom directory
 npx antigravity-setup ./my-antigravity
+# Or specify a custom directory
+npx antigravity-setup ./my-antigravity
+
+# [New] Initialize within an existing project (Swarm Setup)
+npx antigravity-init
 ```
 
 ### 2.3 Manual Installation
@@ -186,10 +191,15 @@ This will:
 2.  Inject shared context (`task_plan.md`, etc.).
 3.  Run agents concurrently based on their `mode` (parallel/serial).
 
-### 6.2 Jules Integration (MCP)
+### 7.2 Jules Integration (MCP)
 The `antigravity-jules-orchestration3` MCP server is configured in `mcp/mcp_config.json`. This enables advanced orchestration capabilities directly through the tool interface.
 
-### 6.3 Auto-Swarm Skill
+### 7.3 Memory Compaction
+When logs (`progress.md`) become too long, use the compactor to summarize them while preserving context.
+- **Command**: `python scripts/swarm/compactor.py`
+- **Result**: Summarizes old entries and keeps recent logs.
+
+### 7.4 Auto-Swarm Skill
 You can configure your agent to automatically trigger the swarm for complex tasks.
 - **Location**: `skills/common/antigravity-swarm/SKILL.md`
 - **Trigger**: Tasks involving >3 files or distinct roles.

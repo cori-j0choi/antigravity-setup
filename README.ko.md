@@ -31,6 +31,11 @@ npx antigravity-setup
 
 # 또는 사용자 지정 디렉토리에 설치
 npx antigravity-setup ./my-antigravity
+# 또는 사용자 지정 디렉토리에 설치
+npx antigravity-setup ./my-antigravity
+
+# [New] 기존 프로젝트에서 초기화 (Swarm 설정)
+npx antigravity-init
 ```
 
 ### 2.3 수동 설치 (Manual Installation)
@@ -188,7 +193,12 @@ python scripts/swarm/orchestrator.py
 ### 7.2 Jules 통합 (MCP)
 `antigravity-jules-orchestration3` MCP 서버는 `mcp/mcp_config.json`에 설정되어 있습니다. 이를 통해 도구 인터페이스를 통한 고급 오케스트레이션 기능을 사용할 수 있습니다.
 
-### 7.3 Auto-Swarm Skill
+### 7.3 메모리 압축 (Memory Compaction)
+로그(`progress.md`)가 너무 길어지면 압축기를 사용하여 컨텍스트를 유지한 채 요약합니다.
+- **명령어**: `python scripts/swarm/compactor.py`
+- **결과**: 오래된 항목은 요약하고 최근 로그만 유지합니다.
+
+### 7.4 Auto-Swarm Skill
 복잡한 작업에 대해 자동으로 스웜을 트리거하도록 에이전트를 구성할 수 있습니다.
 - **위치**: `skills/common/antigravity-swarm/SKILL.md`
 - **조건**: 파일 3개 이상 또는 별도 역할이 필요한 작업.
