@@ -6,10 +6,21 @@ const readline = require('readline');
 
 // The directory where antigravity-setup is installed (e.g., project/.agent/antigravity-setup)
 const SETUP_DIR = path.resolve(__dirname, '..');
-// The project root (parent of .agent/antigravity-setup, or parent of setup dir)
-// Assumption: install.js installs to [ProjectRoot]/.agent/antigravity-setup
-// So ProjectRoot is ../../ form SETUP_DIR
-const PROJECT_ROOT = path.resolve(SETUP_DIR, '../../');
+
+// Robust Project Root Detection
+const hasGit = (dir) => fs.existsSync(path.join(dir, '.git'));
+let PROJECT_ROOT;
+
+if (hasGit(SETUP_DIR)) {
+    // 1. Self-contained repo (e.g. git clone) -> Root is here
+    PROJECT_ROOT = SETUP_DIR;
+} else if (path.basename(path.dirname(SETUP_DIR)) === '.agent') {
+    // 2. Standard install (.agent/antigravity-setup) -> Root is 2 levels up
+    PROJECT_ROOT = path.resolve(SETUP_DIR, '../../');
+} else {
+    // 3. Custom install (./custom) -> Root is ../
+    PROJECT_ROOT = path.resolve(SETUP_DIR, '../');
+}
 
 const CONTEXT_FILE = path.join(PROJECT_ROOT, 'AGENTS.md');
 
@@ -25,6 +36,8 @@ function askQuestion(query) {
 function generateContext() {
     // Relative path from ProjectRoot to SetupDir
     const relativeSetupPath = path.relative(PROJECT_ROOT, SETUP_DIR).replace(/\\/g, '/');
+    // If relative path is empty (same directory), use "." to ensure valid paths (e.g. ./agents/...)
+    const baseDir = relativeSetupPath || '.';
 
     return `
 # Antigravity Agent Configuration
@@ -36,10 +49,10 @@ Your goal is to build high-quality software by strictly following defined roles 
 
 # 2. Context Loading
 You MUST load and adhere to the following configurations:
-- **Roles**: \`${relativeSetupPath}/agents/roles.yaml\`
-- **Workflow**: \`${relativeSetupPath}/agents/workflow.md\`
-- **Tech Stack**: \`${relativeSetupPath}/rules/tech_stack.md\` (Generated Context)
-- **Language Rules**: \`${relativeSetupPath}/rules/00_language.rules.md\`
+- **Roles**: \`${baseDir}/agents/roles.yaml\`
+- **Workflow**: \`${baseDir}/agents/workflow.md\`
+- **Tech Stack**: \`${baseDir}/rules/tech_stack.md\` (Generated Context)
+- **Language Rules**: \`${baseDir}/rules/00_language.rules.md\`
 
 # 3. Behavior Guidelines
 - **Plan First**: Always use \`/plan\` before starting complex work.
@@ -54,7 +67,7 @@ You MUST load and adhere to the following configurations:
 - \`/trend\`: Check latest trends.
 
 # 5. Tools
-- Use the provided MCP tools and Slash Commands defined in \`${relativeSetupPath}/tools/commands.md\`.
+- Use the provided MCP tools and Slash Commands defined in \`${baseDir}/tools/commands.md\`.
 `;
 }
 
@@ -140,6 +153,53 @@ async function configureGitProvider() {
     fs.writeFileSync(mcpConfigPath, JSON.stringify(mcpConfig, null, 2));
 }
 
+async function configureSwarm() {
+    console.log('\n🐝 Configure Antigravity Swarm');
+    const enableSwarm = await askQuestion('Enable Swarm features? (Requires gemini CLI) [y/N]: ');
+
+    if (enableSwarm.toLowerCase() !== 'y') {
+        console.log('   Skipping Swarm configuration.');
+        return;
+    }
+
+    // Check for Gemini CLI
+    let hasGemini = false;
+    try {
+        const { spawnSync } = require('child_process');
+        // Windows 'where', Unix 'which'
+        const cmd = process.platform === 'win32' ? 'where' : 'which';
+        const check = spawnSync(cmd, ['gemini'], { stdio: 'ignore' });
+        hasGemini = check.status === 0;
+    } catch (e) {
+        hasGemini = false;
+    }
+
+    if (!hasGemini) {
+        console.warn('\n⚠️  "gemini" CLI not found in PATH.');
+        console.warn('   Please install it (e.g., npm install -g @google/generative-ai) to use Swarm.');
+    } else {
+        console.log('✅ "gemini" CLI detected.');
+    }
+
+    // Configure API Key
+    const apiKey = await askQuestion('Enter GEMINI_API_KEY (Leave empty to skip): ');
+    if (apiKey.trim()) {
+        const envPath = path.join(PROJECT_ROOT, '.env');
+        let envContent = '';
+        if (fs.existsSync(envPath)) {
+            envContent = fs.readFileSync(envPath, 'utf8');
+        }
+
+        if (!envContent.includes('GEMINI_API_KEY=')) {
+            envContent += `\nGEMINI_API_KEY=${apiKey.trim()}\n`;
+            fs.writeFileSync(envPath, envContent);
+            console.log(`✅ GEMINI_API_KEY saved to ${envPath}`);
+        } else {
+            console.log('ℹ️  GEMINI_API_KEY already exists in .env. Skipping update.');
+        }
+    }
+}
+
 
 async function main() {
     console.log(`\n⚙️  Configuring Antigravity Context...`);
@@ -150,6 +210,9 @@ async function main() {
 
     // Interactive Git Configuration
     await configureGitProvider();
+
+    // Interactive Swarm Configuration
+    await configureSwarm();
 
     const contextContent = generateContext();
 
