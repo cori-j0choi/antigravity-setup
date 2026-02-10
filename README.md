@@ -80,7 +80,7 @@ The setup script `bin/configure.js` will now guide you through the configuration
 ## 3. Usage Guide
 
 ### 3.1 Start a Project (`/plan`)
-1.  Open your IDE (Cursor/Windsurf) with the project.
+1.  Open your IDE with the project.
 2.  Open `AGENTS.md` (or copy its content to the chat).
 3.  **Prompt**: "Let's start. `/plan` Create a login feature."
 4.  **Planner Agent** will:
@@ -161,7 +161,7 @@ Antigravity can be run in two modes depending on task complexity.
 
 ### 6.1 Interactive Mode (Chat-based)
 **Best for**: Daily development, TDD, specific features.
-- **How**: You chat with the LLM in your IDE (Cursor, Windsurf).
+- **How**: You chat with the LLM in your IDE.
 - **Trigger**: Type commands like `/plan`, `/tdd`.
 - **Mechanism**: The LLM uses `AGENTS.md` context to simulate the agents (Planner, Developer) and executes tools directly.
 

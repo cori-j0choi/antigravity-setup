@@ -79,7 +79,7 @@ npm install
 ## 3. 사용 가이드 (Usage Guide)
 
 ### 3.1 프로젝트 시작 (`/plan`)
-1.  IDE(Cursor/Windsurf)를 열고 `AGENTS.md`를 활성화합니다(또는 내용을 채팅에 복사).
+1.  IDE를 열고 `AGENTS.md`를 활성화합니다(또는 내용을 채팅에 복사).
 2.  **명령**: "시작하자. `/plan` 로그인 기능을 만들어줘."
 3.  **Planner 에이전트**:
     -   요구사항을 분석하고 `tech_stack.md`와 Git 상태를 확인합니다.
@@ -160,7 +160,7 @@ Antigravity는 작업 복잡도에 따라 두 가지 모드로 실행할 수 있
 
 ### 6.1 대화형 모드 (Interactive Mode)
 **추천**: 일상적인 개발, TDD, 단일 기능 기능.
-- **방법**: IDE(Cursor, Windsurf) 채팅창에서 LLM과 대화합니다.
+- **방법**: IDE 채팅창에서 LLM과 대화합니다.
 - **실행**: `/plan`, `/tdd` 등의 명령어를 입력합니다.
 - **원리**: LLM이 `AGENTS.md` 컨텍스트를 기반으로 에이전트(Planner, Developer) 역할을 수행하며 도구를 실행합니다.
 
