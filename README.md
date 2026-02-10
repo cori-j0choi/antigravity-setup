@@ -55,7 +55,7 @@ You need to set the following values in `mcp_config.json` or system environment 
 ### 2.4 Agent Configuration Integration
 You must provide this directory as **Context** or specify it as **Config Path** in your LLM agent system (e.g., Claude Desktop, Custom Agent Runner).
 
-- **Context Path**: `d:\2026\08_antigravity_everything_code\antigravity-setup`
+- **Context Path**: `./.antigravity` (Created in your project root)
 
 ### 2.5 Context-Aware Setup (Project Analysis)
 During installation (`npx` or manual), the setup script will prompt you to analyze the target project.
@@ -71,7 +71,7 @@ The setup script `bin/configure.js` will now guide you through the configuration
     -   **GitHub**: Prepare your Personal Access Token.
     -   **Gitea**: Enter your instances URL (e.g., `https://gitea.com`) and Access Token.
     -   **Gitea Mode**: Choose between Docker (recommended) or local binary execution.
-3.  **Context Creation**: Generates `AGENTS.md` in your project root.
+3.  **Context Creation**: Copies configuration files to `.antigravity/` and generates `AGENTS.md` in your project root.
 
 > [!NOTE]
 > **Git-Aware Awareness**: The setup automatically handles MCP configuration based on your selection.

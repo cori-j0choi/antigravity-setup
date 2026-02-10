@@ -60,7 +60,7 @@ npm install
     -   **GitHub**: Personal Access Token을 준비하세요.
     -   **Gitea**: 인스턴스 URL(예: `https://gitea.com`)과 Access Token을 입력합니다.
     -   **Gitea 모드**: Docker(추천) 또는 로컬 바이너리 실행 중 선택합니다.
-3.  **컨텍스트 생성**: 프로젝트 루트에 `AGENTS.md`를 생성합니다.
+3.  **컨텍스트 생성**: 설정 파일들을 `.antigravity/` 폴더로 복사하고, 프로젝트 루트에 `AGENTS.md`를 생성합니다.
 
 > [!NOTE]
 > **Git 설정 자동화**: 선택한 공급자에 맞춰 MCP 설정(`mcp_config.json`)이 자동으로 구성됩니다.
@@ -68,7 +68,7 @@ npm install
 ### 2.7 자동 구성 (Context File)
 마지막으로, `bin/configure.js`가 실행되어 프로젝트 루트에 `AGENTS.md` 파일을 생성합니다.
 - **목적**: LLM / 에이전트를 위한 단일 진입점(Context File)을 제공합니다.
-- **내용**: `roles.yaml`, `workflow.md`, 그리고 생성된 `tech_stack.md`를 참조합니다.
+- **내용**: `.antigravity/` 폴더 내의 `roles.yaml`, `workflow.md`, 그리고 생성된 `tech_stack.md`를 참조합니다.
 - **사용법**: 이 파일을 IDE에 열어두거나 에이전트의 Context로 전달하기만 하면 됩니다.
 
 > [!NOTE]

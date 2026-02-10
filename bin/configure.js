@@ -31,6 +31,7 @@ else {
 }
 
 const CONTEXT_FILE = path.join(PROJECT_ROOT, 'AGENTS.md');
+const LOCAL_ANTIGRAVITY_DIR = path.join(PROJECT_ROOT, '.antigravity');
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -41,11 +42,63 @@ function askQuestion(query) {
     return new Promise(resolve => rl.question(query, resolve));
 }
 
+function copyRecursiveSync(src, dest) {
+    if (fs.existsSync(src)) {
+        if (fs.lstatSync(src).isDirectory()) {
+            if (!fs.existsSync(dest)) {
+                fs.mkdirSync(dest, { recursive: true });
+            }
+            fs.readdirSync(src).forEach(childItemName => {
+                copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
+            });
+        } else {
+            // Overwrite if exists
+            fs.copyFileSync(src, dest);
+        }
+    }
+}
+
+function installLocalAssets() {
+    console.log(`\n📦 Installing Antigravity assets to ${LOCAL_ANTIGRAVITY_DIR}...`);
+
+    const dirsToCopy = ['agents', 'rules', 'skills', 'tools'];
+
+    if (!fs.existsSync(LOCAL_ANTIGRAVITY_DIR)) {
+        fs.mkdirSync(LOCAL_ANTIGRAVITY_DIR, { recursive: true });
+    }
+
+    dirsToCopy.forEach(dir => {
+        const srcPath = path.join(SETUP_DIR, dir);
+        const destPath = path.join(LOCAL_ANTIGRAVITY_DIR, dir);
+
+        if (fs.existsSync(srcPath)) {
+            process.stdout.write(`   - Copying ${dir}... `);
+            try {
+                copyRecursiveSync(srcPath, destPath);
+                console.log('✅');
+            } catch (e) {
+                console.log('❌');
+                console.error(`     Error copying ${dir}:`, e.message);
+            }
+        }
+    });
+
+    // Also copy mcp folder for reference, but config might be handled separately?
+    // Let's copy mcp too so they have the mcp_config structure available locally if they want to switch.
+    const mcpSrc = path.join(SETUP_DIR, 'mcp');
+    const mcpDest = path.join(LOCAL_ANTIGRAVITY_DIR, 'mcp');
+    if (fs.existsSync(mcpSrc)) {
+        process.stdout.write(`   - Copying mcp... `);
+        copyRecursiveSync(mcpSrc, mcpDest);
+        console.log('✅');
+    }
+}
+
 function generateContext() {
-    // Relative path from ProjectRoot to SetupDir
-    const relativeSetupPath = path.relative(PROJECT_ROOT, SETUP_DIR).replace(/\\/g, '/');
-    // If relative path is empty (same directory), use "." to ensure valid paths (e.g. ./agents/...)
-    const baseDir = relativeSetupPath || '.';
+    // Because we copied assets locally, we can point to ./antigravity/...
+    // This is relative to PROJECT_ROOT (where AGENTS.md lives)
+    // To ensure portability, we use forward slashes.
+    const baseDir = '.antigravity';
 
     return `
 # Antigravity Agent Configuration
@@ -85,11 +138,17 @@ async function configureGitProvider() {
     console.log('2) Gitea');
     console.log('3) Skip');
 
+    // Default reuse global config for now to avoid breaking existing setups
     const choice = await askQuestion('Select Provider [1-3]: ');
+
+    // We modify the GLOBAL mcp config for now as standard practice, 
+    // unless we decide to make the agent read local mcp config.
+    // Given the tool capability, usually MCP config is passed via env or specific file args.
+    // Let's stick to modifying the global one in SETUP_DIR/mcp/mcp_config.json for connectivity.
     const mcpConfigPath = path.join(SETUP_DIR, 'mcp', 'mcp_config.json');
 
     if (!fs.existsSync(mcpConfigPath)) {
-        console.warn('⚠️ mcp_config.json not found. Skipping MCP config.');
+        console.warn('⚠️ mcp_config.json not found in SETUP folder. Skipping MCP config.');
         return;
     }
 
@@ -137,15 +196,6 @@ async function configureGitProvider() {
 
     } else if (choice === '3') { // Skip
         console.log('   Skipping Git provider configuration.');
-        // Optionally disable github if previously enabled? 
-        // For now, leave as is or remove if user explicitly wants to skip/disable.
-        // Let's remove default github to be safe if they skip.
-        if (mcpConfig.mcpServers && mcpConfig.mcpServers.github) {
-            // delete mcpConfig.mcpServers.github; 
-            // Actually, skipping might mean "don't change anything", but usually implies "I don't have one".
-            // Let's keep it simple: Skip = Do nothing.
-        }
-
     } else { // GitHub (Default)
         const token = await askQuestion('Enter GitHub Personal Access Token (Press Enter to set later): ');
         if (token.trim()) {
@@ -212,16 +262,18 @@ async function configureSwarm() {
 async function main() {
     console.log(`\n⚙️  Configuring Antigravity Context...`);
     console.log(`   Project Root detected at: ${PROJECT_ROOT}`);
-    console.log(`   Antigravity installed at: ${SETUP_DIR}`);
+    console.log(`   Assets Source: ${SETUP_DIR}`);
 
-    // Context Analysis & Git Detection logic could be here, but we are overriding with interactive config.
+    // 1. Copy Assets to Project
+    installLocalAssets();
 
-    // Interactive Git Configuration
+    // 2. Interactive Git Configuration
     await configureGitProvider();
 
-    // Interactive Swarm Configuration
+    // 3. Interactive Swarm Configuration
     await configureSwarm();
 
+    // 4. Update Context File
     const contextContent = generateContext();
 
     if (fs.existsSync(CONTEXT_FILE)) {
@@ -231,7 +283,7 @@ async function main() {
             fs.writeFileSync(CONTEXT_FILE, contextContent);
             console.log('✅ AGENTS.md updated.');
         } else {
-            console.log('   Skipping configuration.');
+            console.log('   Skipping AGENTS.md update.');
         }
     } else {
         const answer = await askQuestion(`\n📝 Create AGENTS.md in project root? (Y/n): `);

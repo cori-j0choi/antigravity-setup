@@ -8,10 +8,10 @@ Your goal is to build high-quality software by strictly following defined roles 
 
 # 2. Context Loading
 You MUST load and adhere to the following configurations:
-- **Roles**: `./agents/roles.yaml`
-- **Workflow**: `./agents/workflow.md`
-- **Tech Stack**: `./rules/tech_stack.md` (Generated Context)
-- **Language Rules**: `./rules/00_language.rules.md`
+- **Roles**: `.antigravity/agents/roles.yaml`
+- **Workflow**: `.antigravity/agents/workflow.md`
+- **Tech Stack**: `.antigravity/rules/tech_stack.md` (Generated Context)
+- **Language Rules**: `.antigravity/rules/00_language.rules.md`
 
 # 3. Behavior Guidelines
 - **Plan First**: Always use `/plan` before starting complex work.
@@ -26,4 +26,4 @@ You MUST load and adhere to the following configurations:
 - `/trend`: Check latest trends.
 
 # 5. Tools
-- Use the provided MCP tools and Slash Commands defined in `./tools/commands.md`.
+- Use the provided MCP tools and Slash Commands defined in `.antigravity/tools/commands.md`.
